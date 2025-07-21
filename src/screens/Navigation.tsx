@@ -1,21 +1,14 @@
 import "react-native-gesture-handler";
 import React from "react";
-import {
-    DarkTheme,
-    DefaultTheme,
-    NavigationContainer,
-} from "@react-navigation/native";
+import { DarkTheme, DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useColorScheme } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 // компоненты
-import { BlurTabBarBackground } from "../components/ui/TabBarBackground.ios";
 
-// экраны
-import { ExploreContent } from "../components/ExploreContent/ExploreContent";
-import { ModalComponent } from "../components/ModalComponent/ModalComponent";
-import { PlaylistsContent } from "../components/PlaylistsContent/PlaylistsContent";
+
+import { tabScreens } from "./tabScreens";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -24,22 +17,28 @@ const Tab = createBottomTabNavigator();
 const Tabs: React.FC = () => {
     return (
         <Tab.Navigator
-            screenOptions={{ tabBarBackground: BlurTabBarBackground }}
+            screenOptions={{
+                headerShown: false,
+            }}
         >
-            <Tab.Screen name={"Main"} component={PlaylistsContent} />
-            <Tab.Screen name={"Explore"} component={ExploreContent} />
-            <Tab.Screen name={"Modal"} component={ModalComponent} />
+            {tabScreens.map(({ name, component, icon }) => (
+                <Tab.Screen
+                    key={name}
+                    name={name}
+                    component={component}
+                    options={{
+                        tabBarIcon: ({ focused, color, size }) => icon(focused, color, size),
+                    }}
+                />
+            ))}
         </Tab.Navigator>
     );
 };
 
-// page routing: передаю
+// page routing: передаю внутрь tabs
 const RootNavigator: React.FC = () => {
     return (
-        <Stack.Navigator
-            initialRouteName={"Tabs"}
-            screenOptions={{ headerShown: false }}
-        >
+        <Stack.Navigator initialRouteName={"Tabs"} screenOptions={{ headerShown: false }}>
             <Stack.Screen name={"Tabs"} component={Tabs} />
         </Stack.Navigator>
     );
@@ -49,9 +48,7 @@ export const Navigation: React.FC = () => {
     const colorScheme = useColorScheme();
 
     return (
-        <NavigationContainer
-            theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-        >
+        <NavigationContainer theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
             <RootNavigator />
         </NavigationContainer>
     );

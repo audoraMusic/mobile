@@ -14,7 +14,7 @@ import {
 import { styles } from "./style";
 import { useState } from "react";
 
-export function ModalComponent() {
+export function ModalContent() {
     const [isVisible, setIsVisible] = useState(false);
 
     const [isOpenKeyboard, setIsOpenKeyboard] = useState(false);
@@ -25,16 +25,16 @@ export function ModalComponent() {
             resizeMode="cover"
             style={{ flex: 1 }}
         >
-                <SafeAreaView style={styles.modalContainer}>
-                    <Modal
-                        onRequestClose={() => setIsVisible(false)}
-                        visible={isVisible}
-                        transparent={true}
+            <SafeAreaView style={styles.modalContainer}>
+                <Modal
+                    onRequestClose={() => setIsVisible(false)}
+                    visible={isVisible}
+                    transparent={true}
+                >
+                    <KeyboardAvoidingView
+                        style={{ flex: 1 }}
+                        behavior={Platform.OS === "ios" ? "padding" : "height"}
                     >
-            <KeyboardAvoidingView
-                style={{ flex: 1 }}
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
-            >
                         <TouchableWithoutFeedback
                             onPress={() => {
                                 if (isOpenKeyboard) {
@@ -68,18 +68,18 @@ export function ModalComponent() {
                             </View>
                         </TouchableWithoutFeedback>
                     </KeyboardAvoidingView>
-                    </Modal>
-                    {!isVisible ? (
-                        <TouchableOpacity
-                            style={styles.buttonOpen}
-                            onPress={() => {
-                                setIsVisible(true);
-                            }}
-                        >
-                            <Text style={styles.textStyle}>Open modal</Text>
-                        </TouchableOpacity>
-                    ) : null}
-                </SafeAreaView>
+                </Modal>
+                {!isVisible ? (
+                    <TouchableOpacity
+                        style={styles.buttonOpen}
+                        onPress={() => {
+                            setIsVisible(true);
+                        }}
+                    >
+                        <Text style={styles.textStyle}>Open modal</Text>
+                    </TouchableOpacity>
+                ) : null}
+            </SafeAreaView>
         </ImageBackground>
     );
 }

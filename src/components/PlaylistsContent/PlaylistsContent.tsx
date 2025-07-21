@@ -1,52 +1,30 @@
-import {
-    SafeAreaView,
-    Text,
-    TextInput,
-    View,
-    KeyboardAvoidingView,
-    TouchableWithoutFeedback,
-    Platform,
-    Keyboard,
-} from "react-native";
+import { Text, TextInput, View } from "react-native";
 import { styles } from "./style";
 import { useState } from "react";
-import { CustomButton } from "../CustomButton/CustomButton";
+import { CustomButton } from "@/src/components/ui/CustomButton/CustomButton";
+import { MainLayout } from "@/src/layouts/MainLayout";
 
-export function PlaylistsContent() {
+export function MainContent() {
     const [text, setText] = useState("");
 
     return (
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-            <KeyboardAvoidingView
-                style={styles.container}
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
+        <MainLayout>
+            <View
+                style={{
+                    backgroundColor: "white",
+                    width: 300,
+                    height: 200,
+                    marginInline: "auto",
+                    marginTop: 20,
+                }}
             >
-                <SafeAreaView style={styles.container}>
-                    <View
-                        style={{
-                            backgroundColor: "white",
-                            width: 300,
-                            height: 200,
-                            marginInline: "auto",
-                            marginTop: 20,
-                        }}
-                    >
-                        <Text>{text}</Text>
-                    </View>
+                <Text>{text}</Text>
+            </View>
 
-                    <View style={styles.wrapper}>
-                        <TextInput
-                            onChangeText={setText}
-                            value={text}
-                            style={styles.input}
-                        />
-                        <CustomButton
-                            title="Button"
-                            onPress={() => console.log("smth")}
-                        />
-                    </View>
-                </SafeAreaView>
-            </KeyboardAvoidingView>
-        </TouchableWithoutFeedback>
+            <View style={styles.wrapper}>
+                <TextInput onChangeText={setText} value={text} style={styles.input} />
+                <CustomButton title="Button" onPress={() => console.log("smth")} />
+            </View>
+        </MainLayout>
     );
 }
