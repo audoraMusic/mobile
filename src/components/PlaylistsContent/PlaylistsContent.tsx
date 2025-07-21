@@ -8,9 +8,8 @@ import {
     Platform,
     Keyboard,
 } from "react-native";
-import { ScrollView } from "react-native";
 import { styles } from "./style";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { CustomButton } from "../CustomButton/CustomButton";
 
 export function PlaylistsContent() {
